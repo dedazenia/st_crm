@@ -23,7 +23,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text">Фамилия</span>
                 </div>
-                <input type="text" class="form-control" id="surnameID" name="surname" placeholder="Петроввв" aria-label="Name">
+                <input type="text" class="form-control" id="surnameID" name="surname" placeholder="Петров" aria-label="Name">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
