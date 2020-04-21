@@ -11,33 +11,31 @@
 </nav>
 
 
-<div class="container">
+<div class="form-group col-sm-3">
+    <select type="text" id="select1" class="form-control">
+        <c:forEach items="${terms}" var="t">
+            <c:choose>
+                <c:when test="${t.id eq selectedTerm.id}">
+                    <option id="opt2" value="${t.id}" selected>${t.name}</option>
+                </c:when>
+                <c:otherwise>
+                    <option id="opt2" value="${t.id}">${t.name}</option>
+                </c:otherwise>
+            </c:choose>
 
-    <form class="form-inline">
-        <label class="my-1 mr-2" for="selected">Семестр</label>
-        <select class="custom-select my-1 mr-sm-2" type="text" id="selected">
-            <c:forEach items="${terms}" var="t">
-                <c:choose>
-                    <c:when test="${t.id eq selectedTerm.id}">
-                        <option selected>${t.name}</option>
-                        <br/>
-                    </c:when>
-                    <c:otherwise>
-                        <option>${t.name}</option>
-                    </c:otherwise>
-                </c:choose>
+        </c:forEach>
+    </select>
 
-            </c:forEach>
-        </select>
-
-
-        <button type="submit" class="btn btn-primary my-1">Выбрать</button>
-    </form>
+    <button onclick="selectTermOnTermsList()" id="btn" class="btn btn-primary my-1">
+        Выбрать
+    </button>
 </div>
+
+
 <br>
 
 <div class="container">
-    <p> Длительность семестра  <b> ${selectedTerm.duration}</b></p>
+    <p> Длительность семестра <b> ${selectedTerm.duration}</b></p>
 </div>
 <div class="container">
     Список дисциплин семестра
@@ -56,9 +54,9 @@
                 </thead>
                 <tbody>
                 <c:forEach items="${selectedTerm.disciplines}" var="d">
-                <tr>
-                    <th scope="row"> ${d.discipline}</th>
-                </tr>
+                    <tr>
+                        <th scope="row"> ${d.discipline}</th>
+                    </tr>
 
                 </c:forEach>
 
@@ -69,16 +67,29 @@
         <div class="col-md-4 offset-md-3">
             <div class="btn-group-vertical">
                 <div class="p-2 bd-highlight">
-                    <a href="termcreating.html" class="btn btn-primary btn-lg btn-block">Создать семестр</a>
+                    <a href="/terms-create" class="btn btn-primary btn-lg btn-block">Создать семестр</a>
                 </div>
                 <div class="p-2 bd-highlight">
-                    <a href="termmodifying.html" class="btn btn-primary btn-lg btn-block">Модифицировать текущий
+                    <a onclick="modifySelectTerm()" class="btn btn-primary btn-lg btn-block" role="button">Модифицировать
+                        текущий
                         семестр</a>
                 </div>
                 <div class="p-2 bd-highlight">
-                    <a href="#" class="btn btn-primary btn-lg btn-block">Удалить текущий семестр</a>
+                    <a onclick="deleteSelectTerm()" class="btn btn-primary btn-lg btn-block">Удалить текущий семестр</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<form id="selectTerm" method="get" action="/terms-list">
+    <input type="hidden" id="idTerm" name="idTerm" value="">
+</form>
+<form id="delSelectTerm" method="post" action="/terms-list">
+    <input type="hidden" id="idDelTerm" name="idDelTerm" value="">
+</form>
+<<form id="formModifyingTerm" method="get" action="/terms-modify">
+<input type="hidden" id="idsOldDisciplines" name="idsOldDisciplines" value="">
+<input type="hidden" id="idModifyTerm" name="idModifyTerm" value="">
+
+</form>

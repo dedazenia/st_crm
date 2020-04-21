@@ -14,7 +14,7 @@
             <a class="nav-link" href="/disciplines">Дисциплины</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="termslistadmin.html">Семестры</a>
+            <a class="nav-link" href="/terms-list">Семестры</a>
         </li>
 
     </ul>

@@ -42,7 +42,8 @@ public class Term {
     public void setDisciplines(LinkedList<Discipline> disciplines) {
         this.disciplines = disciplines;
     }
-    public void addDiscipline (Discipline discipline){
+
+    public void addDiscipline(Discipline discipline) {
         disciplines.add(discipline);
     }
 

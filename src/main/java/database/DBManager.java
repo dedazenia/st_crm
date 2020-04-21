@@ -34,7 +34,7 @@ public class DBManager {
 
     }
 
-    public static List<Discipline> GetAllActiveDisciplines() {
+    public static List<Discipline> getAllActiveDisciplines() {
         ArrayList<Discipline> disciplines = new ArrayList<Discipline>();
         try {
 
@@ -175,4 +175,148 @@ public class DBManager {
         return terms;
     }
 
+    public static void deleteTerm(String id) {
+        try {
+            Statement stm = con.createStatement();
+            stm.execute("UPDATE `student_crm`.`term` SET `status` = '0' WHERE (`id` = '" + id + "');");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static List<Discipline> showDisciplinesForSelectTerm(String idTerm) {
+        List<Discipline> disciplines = new LinkedList<Discipline>();
+        try {
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM term_discipline  as td\n" +
+                    "left join discipline as d on td.id_discipline = d.id\n" +
+                    "where td.id_term=" + idTerm + " and td.status = 1 and d.status = 1;");
+
+            while (rs.next()) {
+                Discipline discipline = new Discipline();
+                discipline.setId(rs.getInt(5));
+                discipline.setDiscipline(rs.getString(6));
+                disciplines.add(discipline);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return disciplines;
+    }
+
+    public static String createTerm(String nameDisc, String duration) {
+        String id = "";
+        try {
+            Statement stm = con.createStatement();
+            stm.execute("INSERT INTO `term` (`name`, `duration`) VALUES ('" + nameDisc + "', '" + duration + "');");
+            ResultSet rs = stm.executeQuery("SELECT * FROM term where term.name = '" + nameDisc + "';");
+            while (rs.next()) {
+                id = Integer.toString(rs.getInt(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public static void modifyTerm(String termId, String termName, String duration, String oldIds, String newIds) {
+        try {
+            Statement stm = con.createStatement();
+            stm.execute("UPDATE term SET `name` = '" + termName + "', `duration` = '" + duration + "' WHERE (`id` = '" + termId + "');");
+            for (String oldId : oldIds.split(",")) {
+                boolean got = false;
+                for (String newId : newIds.split(",")) {
+                    if (oldId == newId) {
+                        got = true;
+                        break;
+                    }
+                }
+                if (!got) {
+                    stm.execute("UPDATE term_discipline SET status = '0' WHERE id_term = '" + termId + "' and id_discipline = '" + oldId + "';");
+                }
+            }
+            for (String newId : newIds.split(",")) {
+                boolean got = false;
+                for (String oldId : oldIds.split(",")) {
+                    if (oldId == newId) {
+                        got = true;
+                        break;
+                    }
+                }
+                if (!got) {
+                    stm.execute("INSERT INTO term_discipline (`id_term`, `id_discipline`) VALUES ('" + termId + "', '" + newId + "');");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void addDisciplinesInNewTerm(String termId, String idDisc) {
+        try {
+            Statement stm = con.createStatement();
+            for (String idsDisc1 : idDisc.split(",")) {
+                System.out.println(idsDisc1);
+                stm.execute("INSERT INTO `term_discipline` (`id_term`, `id_discipline`) VALUES ('" + termId + "', '" + idsDisc1 + "');");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Term getTerm(String idTerm) {
+        Term term = new Term();
+        try {
+            Statement stm = con.createStatement();
+            Statement stm1 = con.createStatement();
+            ResultSet rs1 = stm1.executeQuery("SELECT * FROM term where id=" + idTerm + ";");
+            term.setId(rs1.getInt(1));
+            term.setName(rs1.getString(2));
+            term.setDuration(rs1.getString(3));
+
+            List<Discipline> disciplines = DBManager.getAllActiveDisciplines();
+            ResultSet rs = stm.executeQuery("SELECT id_discipline FROM term_discipline  as td where  td.id_term = " + idTerm + " order by td.id_term;");
+            for (Discipline disc : disciplines) {
+                while (rs.next()) {
+                    if (disc.getId() == rs.getInt(1)) {
+                        disc.setFlag(1);
+                    } else {
+                        disc.setFlag(0);
+                    }
+                    term.addDiscipline(disc);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return term;
+    }
+
+    public static Term getTerm1(String idTerm, String oldIds) {
+        Term term = new Term();
+        try {
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM term where  term.id = '" + idTerm + "';");
+            while (rs.next()) {
+                term.setId(rs.getInt(1));
+                term.setName(rs.getString(2));
+                term.setDuration(rs.getString(3));
+            }
+            List<Discipline> disciplines = DBManager.getAllActiveDisciplines();
+            for (Discipline disc : disciplines) {
+                for (String s : oldIds.split(",")) {
+                    if (Integer.parseInt(s) == disc.getId()) {
+                        disc.setFlag(1);
+                        break;
+                    }
+                }
+                term.addDiscipline(disc);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return term;
+    }
 }
