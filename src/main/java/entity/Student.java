@@ -12,6 +12,13 @@ public class Student {
     public Student() {
     }
 
+    public Student(String surname, String name, String group, String date) {
+        this.surname = surname;
+        this.name = name;
+        this.group = group;
+        this.date = date;
+    }
+
     public Student(int id, String surname, String name, String group, String date) {
         this.id = id;
         this.surname = surname;

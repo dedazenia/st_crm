@@ -125,4 +125,53 @@ function createTermWithSelectedDisciplines() {
     $('#formSelectDisciplines').submit();
 }
 
+function deleteSelectStudents() {
+    var items = $("input[type=checkbox]:checked");
+    if (items.length == 0) {
+        alert("Нужно выбрать хотя бы одного студента");
+        return;
+    }
+    var ids;
+    for (var i = 0; i < items.length; i++) {
+        if (ids == null) {
+            ids = "'" + $(items[i]).attr("value") + "'";
+        } else {
+            ids = ids + ",'" + $(items[i]).attr("value") + "'";
+        }
+    }
+    $('#formDeleteStudent input').val(ids);
+    $('#formDeleteStudent').submit();
+}
+
+function modifySelectStudent() {
+    var items = $("input[type=checkbox]:checked");
+    if (items.length == 0) {
+        alert("Нужно выбрать студента");
+        return;
+    }
+    if (items.length > 1) {
+        alert("Выберите одного студента");
+        return;
+    }
+    var id = $(items[0]).attr("value");
+    $('#formModifyingStudent input').val(id);
+    $('#formModifyingStudent').submit();
+}
+
+function showMarksForSelectStudent() {
+    var items = $("input[type=checkbox]:checked");
+    if (items.length == 0) {
+        alert("Нужно выбрать студента");
+        return;
+    }
+    if (items.length > 1) {
+        alert("Выберите одного студента");
+        return;
+    }
+    var id = $(items[0]).attr("value");
+    $('#formMarksStudent input').val(id);
+    $('#formMarksStudent').submit();
+}
+
+
 

@@ -8,7 +8,7 @@
             <a class="nav-link active" href="#">Главное меню</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="studentslistadmin.html">Студенты</a>
+            <a class="nav-link" href="/students">Студенты</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/disciplines">Дисциплины</a>

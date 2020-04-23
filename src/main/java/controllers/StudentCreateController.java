@@ -25,24 +25,24 @@ public class StudentCreateController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String surname = req.getParameter("surname");
-        String name = req.getParameter("name");
+        String lastName = req.getParameter("lName");
+        String firstName = req.getParameter("fName");
         String group = req.getParameter("group");
-        String date = req.getParameter("date");
+        String date;
 
-        SimpleDateFormat fromUser = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
         SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
 
-            String reformattedStr = myFormat.format(fromUser.parse(date));
+            String reformattedStr = myFormat.format(fromUser.parse(req.getParameter("date")));
+            date = reformattedStr;
+
+            DBManager.insertNewStudent(firstName, lastName, group, date);
+            resp.sendRedirect("/students");
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
-
-
 
     }
 }

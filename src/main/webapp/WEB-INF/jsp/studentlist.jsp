@@ -6,67 +6,82 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">На главную</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Students List</li>
+        <li class="breadcrumb-item active" aria-current="page">Студенты</li>
     </ol>
 </nav>
 
 <c:if test="${role eq 1}">
     <div class="container">
-        <div class="btn-group-vertical">
-            <a class="btn btn-outline-primary" href="studentprogress.html" role="button">Просмотреть успеваемость
-                выбранных студентов</a>
-            <a class="btn btn-outline-primary" href="/student-create" role="button">Создать студента</a>
-            <a class="btn btn-outline-primary" href="studentmodifying.html" role="button">Модифицировать выбранного
-                студента</a>
-            <a class="btn btn-outline-primary" href="#" role="button">Удалить выбранных студентов</a>
+        <div class="btn-group-vertical" style="color:inherit" >
 
+            <button type="button" class="btn btn-outline-primary">
+                <a onclick="showMarksForSelectStudent()" style="color:inherit" role="button" aria-pressed="true"> Просмотреть успеваемость
+                    студента</a>
+            </button>
+
+            <a class="btn btn-outline-primary" href="/student-create" role="button">Создать студента</a>
+
+            <button type="button" class="btn btn-outline-primary">
+                <a onclick="modifySelectStudent()" style="color:inherit" role="button" aria-pressed="true"> Модифицировать выбранного
+                    студента</a>
+            </button>
+
+            <button type="button" class="btn btn-outline-primary">
+                <a onclick="deleteSelectStudents()" style="color:inherit" role="button" aria-pressed="true"> Удалить студента</a>
+            </button>
         </div>
     </div>
 </c:if>
-
 <br>
-
 <br>
-<div class="container">
-    <p> Список студентов.</p>
+<div class="col-md-8">
+    <table class="table table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <c:if test="${role eq 1}">
+                <th></th>
+            </c:if>
+            <th>Фамилия</th>
+            <th>Имя</th>
+            <th>Группа</th>
+            <th>Дата зачисления</th>
+        </tr>
+        </thead>
+        <c:forEach items="${studentos}" var="s">
+            <tr>
+                <c:if test="${role eq 1}">
+                    <th>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="${s.id}"
+                                   id="defaultCheck2">
+                        </div>
+                    </th>
+                </c:if>
+                <th>
+                        ${s.name}
+                </th>
+                <th>
+                        ${s.surname}
+                </th>
+                <th>
+                        ${s.group}
+                </th>
+                <th>
+                        ${s.date}
+                </th>
+            </tr>
+        </c:forEach>
+    </table>
 </div>
 
-<div class="container">
-<div class="row">
-<div class="col-md-8">
 
-<table class="table table-striped">
-<thead>
-<tr>
-    <th></th>
-    <th>Фамилия</th>
-    <th>Имя</th>
-    <th>Группа</th>
-    <th>Дата поступления</th>
-</tr>
-</thead>
-<tbody>
-<c:forEach items="${students}" var="s" varStatus="i">
-    <tr>
-    <td>
-    <c:if test="${role eq 1}">
-        <input type="checkbox" value="${s.id}" name="checkboxstudent" id="cbx${i.count}"/>
-        <label for="cbx${i.count}"> </label>
-    </c:if>
-    </td>
-    </tr>
-    <td>${s.student}</td>
-    </tbody>
-    </table>
-    </div>
-    </div>
-    </div>
+<form id="formMarksStudent" method="get" action="/student-progress">
+    <input type="hidden" id="idStudentProgress" name="idStudentProgress" value="">
+</form>
+<form id="formModifyingStudent" method="get" action="/student-modify">
+    <input type="hidden" id="idModifyStudent" name="idModifyStudent" value="">
+</form>
 
-    <%--<form id="formModifyingDiscipline" method="get" action="/discipline-modify">--%>
-    <%--    <input type="hidden" id="idModifyDisc" name="idModifyDisc" value="">--%>
-    <%--</form>--%>
-
-
-    <%--<form id="formDeleteDisciplines" method="post" action="/disciplines">--%>
-    <%--    <input type="hidden" id="idsDeleteDisc" name="idsDeleteDisc" value="">--%>
-    <%--</form>--%>
+<form id="formDeleteStudent" method="post" action="/students">
+    <input type="hidden" id="idsDeleteStud" name="idsDeleteStud" value="">
+</form>

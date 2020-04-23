@@ -39,12 +39,8 @@
         <div class="col-md-8">
 
 
-            <table class="table table-striped">
+            <table class="table table-hover">
                 <thead>
-                <tr>
-                    <th></th>
-                    <th>Наименование дисциплины</th>
-                </tr>
                 </thead>
                 <tbody>
                 <c:forEach items="${disces}" var="d" varStatus="i">

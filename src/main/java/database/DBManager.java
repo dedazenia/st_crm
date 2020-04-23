@@ -2,6 +2,7 @@ package database;
 
 import entity.Account;
 import entity.Discipline;
+import entity.Student;
 import entity.Term;
 
 import java.sql.*;
@@ -318,5 +319,44 @@ public class DBManager {
             e.printStackTrace();
         }
         return term;
+    }
+    public static List<Student> getAllStudents() {
+        ArrayList<Student> students = new ArrayList<Student>();
+        try {
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM student WHERE `status`=1 ");
+            while (rs.next()) {
+                Student student = new Student();
+                student.setId(rs.getInt(1));
+                student.setName(rs.getString(2));
+                student.setSurname(rs.getString(3));
+                student.setGroup(rs.getString(4));
+                student.setDate(rs.getString(5));
+                students.add(student);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return students;
+    }
+    public static void deleteStudent(String ids) {
+        try {
+            Statement stm = con.createStatement();
+            stm.execute("UPDATE `student` SET `status` = '0' WHERE (`id` in (" + ids + "));");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void insertNewStudent(String firstName, String lastName, String group, String date) {
+
+        try {
+            Statement stm = con.createStatement();
+            stm.execute("INSERT INTO `student` (`name`, `surname`, `group`, `date`) VALUES ('" + firstName + "', '" + lastName + "', '" + group + "', '" + date + "');");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
