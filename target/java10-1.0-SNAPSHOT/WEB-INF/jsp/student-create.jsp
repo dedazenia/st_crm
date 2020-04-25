@@ -6,21 +6,10 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/">На главную</a></li>
-        <li class="breadcrumb-item"><a href="studentslistadmin.html">Назад</a></li>
+        <li class="breadcrumb-item"><a href="/students">Назад</a></li>
         <li class="breadcrumb-item active" aria-current="page">Создание студента</li>
     </ol>
 </nav>
-
-<%--<div class="form-group row">--%>
-<%--    <label for="datepicker" class="col-sm-4 col-form-label">Дата зачисления</label>--%>
-<%--    <div class="col-sm-8">--%>
-<%--        <c:set var="now" value="<%= new java.util.Date() %>"/>--%>
-<%--        <input type="text" class="form-control" id="datepicker"--%>
-<%--               value="<fmt:formatDate value="${now}" pattern="MM/dd/yyyy"/>"--%>
-<%--               name="date">--%>
-<%--    </div>--%>
-<%--</div>--%>
-
 
 <div class="container">Для создания студента заполните следующие данные и нажмите кнопку "Создать".
 </div>
@@ -61,5 +50,3 @@
         <button class="btn btn-primary" type="submit">Создать</button>
     </form>
 </div>
-
-

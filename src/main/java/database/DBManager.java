@@ -1,9 +1,6 @@
 package database;
 
-import entity.Account;
-import entity.Discipline;
-import entity.Student;
-import entity.Term;
+import entity.*;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,6 +12,7 @@ public class DBManager {
     private static PreparedStatement modifyDiscipline;
     private static PreparedStatement getAccountByLoginPasswordRole;
     private static PreparedStatement getAllActiveTerm;
+//    private static PreparedStatement modifyStudent;
 
     static {
         try {
@@ -28,6 +26,7 @@ public class DBManager {
                     "left join term as t on td.id_term = t.id\n" +
                     "left join discipline as d on td.id_discipline = d.id\n" +
                     "where t.status = 1 and d.status = 1 order by td.id_term");
+//            modifyStudent = con.prepareStatement("UPDATE `student` SET `name` = ?, `surname` = ?, `group` = ?, `date` = ? WHERE (`id` = ?);");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -348,7 +347,21 @@ public class DBManager {
         }
 
     }
+    public static void modifyStudent(String firstName, String lastName, String group, String date, String id) {
+        try {
+            Statement stm = con.createStatement();
+            stm.execute("UPDATE `student` SET `name` = '" + firstName + "', `surname` = '" + lastName + "', `group` = '" + group + "', `date` = '" + date + "' WHERE (`id` = '" + id + "');");
 
+//            modifyStudent.setString(1, firstName);
+//            modifyStudent.setString(2, lastName);
+//            modifyStudent.setString(3, group);
+//            modifyStudent.setString(4, date);
+//            modifyStudent.setString(5, id);
+//            modifyStudent.execute();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static void insertNewStudent(String firstName, String lastName, String group, String date) {
 
         try {
@@ -358,5 +371,65 @@ public class DBManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public static Student getStudentById(String id) {
+        Student student = new Student();
+        try {
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("select * from student where status = 1 AND id = " + id);
+
+            while (rs.next()) {
+                student.setId(rs.getInt(1));
+                student.setName(rs.getString(2));
+                student.setSurname(rs.getString(3));
+                student.setGroup(rs.getString(4));
+                student.setDate(rs.getString(5));
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return student;
+    }
+    public static List<Term> getAllActiveTerm1() {
+        LinkedList<Term> terms = new LinkedList<Term>();
+        try {
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM student_crm.term where status=1;");
+
+            while (rs.next()) {
+                Term term = new Term();
+                term.setId(rs.getInt(1));
+                term.setName(rs.getString(2));
+                term.setDuration(rs.getString(3));
+                terms.add(term);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return terms;
+    }
+    public static List<Mark> showMarkForSelectStudentAndTerm(String idStudent, String idTerm) {
+
+        List<Mark> marks = new LinkedList<Mark>();
+        try {
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * FROM mark as m\n" +
+                    "left join term_discipline as td on m.id_term_discipline = td.id\n" +
+                    "left join term as t on td.id_term=t.id\n" +
+                    "left join discipline as d on td.id_discipline=d.id\n" +
+                    "where m.id_student = " + idStudent + " and t.id = " + idTerm + " and t.status=1;");
+
+            while (rs.next()) {
+                Mark mark = new Mark();
+                mark.setId(rs.getInt(1));
+                mark.setDiscipline(rs.getString(14));
+                mark.setGraduate(rs.getInt(4));
+                marks.add(mark);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return marks;
     }
 }
