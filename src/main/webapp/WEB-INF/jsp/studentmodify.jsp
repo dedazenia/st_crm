@@ -11,53 +11,49 @@
     </ol>
 </nav>
 
+
+<div class="container">Для модификации введите новые значения и нажмите кнопку "Применить".
+</div>
+<br>
+<br>
 <div class="container">
-
-    <div class="container">Для модификации введите новые значения и нажмите кнопку "Применить".
-    </div>
-    <br>
-    <br>
-    <div class="container">
-        <form>
-
-            <div class="form-row" action="/student-modify" method="post">
-                <input type="hidden" name="idModifyStud" value="${studentos.id}">
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon1">Фамилия</span>
-                    </div>
-                    <input type="text" class="form-control" id="firstName"
-                           value="${studentos.name}"
-                           name="fName">
+    <form action="/student-modify" method="post">
+        <input type="hidden" name="idModifyStud" value="${studentos.id}">
+        <div class="form-row">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Фамилия</span>
                 </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon2">Имя</span>
-                    </div>
-                    <input type="text" class="form-control" id="lastName"
-                           value="${studentos.surname}"
-                           name="lName">
-
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon3">Группа</span>
-                    </div>
-                    <input type="text" class="form-control" id="group"
-                           value="${studentos.group}"
-                           name="group">
-                </div>
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text" id="basic-addon4">Дата поступления</span>
-                    </div>
-                    <input type="text" class="form-control" id="datepicker"
-                           value="${studentos.date}"
-                           name="date">
-                </div>
+                <input type="text" class="form-control" id="FName"
+                       value="${studentos.name}"
+                       name="lName">
             </div>
-            <button class="btn btn-primary" type="submit">Применить</button>
-        </form>
-    </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Имя</span>
+                </div>
+                <input type="text" class="form-control" id="Name"
+                       value="${studentos.name}"
+                       name="fName">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Группа</span>
+                </div>
+                <input type="text" class="form-control" id="group"
+                       value="${studentos.group}"
+                       name="group">
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Дата поступления</span>
+                </div>
+                <input type="text" class="form-control" id="datepicker" value="${studentos.date}"
+                       name="date">
+
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Применить</button>
+    </form>
 </div>
 

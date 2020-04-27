@@ -12,7 +12,7 @@ public class DBManager {
     private static PreparedStatement modifyDiscipline;
     private static PreparedStatement getAccountByLoginPasswordRole;
     private static PreparedStatement getAllActiveTerm;
-//    private static PreparedStatement modifyStudent;
+
 
     static {
         try {
@@ -26,7 +26,6 @@ public class DBManager {
                     "left join term as t on td.id_term = t.id\n" +
                     "left join discipline as d on td.id_discipline = d.id\n" +
                     "where t.status = 1 and d.status = 1 order by td.id_term");
-//            modifyStudent = con.prepareStatement("UPDATE `student` SET `name` = ?, `surname` = ?, `group` = ?, `date` = ? WHERE (`id` = ?);");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -319,6 +318,7 @@ public class DBManager {
         }
         return term;
     }
+
     public static List<Student> getAllStudents() {
         ArrayList<Student> students = new ArrayList<Student>();
         try {
@@ -338,6 +338,7 @@ public class DBManager {
         }
         return students;
     }
+
     public static void deleteStudent(String ids) {
         try {
             Statement stm = con.createStatement();
@@ -347,21 +348,17 @@ public class DBManager {
         }
 
     }
+
     public static void modifyStudent(String firstName, String lastName, String group, String date, String id) {
         try {
             Statement stm = con.createStatement();
             stm.execute("UPDATE `student` SET `name` = '" + firstName + "', `surname` = '" + lastName + "', `group` = '" + group + "', `date` = '" + date + "' WHERE (`id` = '" + id + "');");
 
-//            modifyStudent.setString(1, firstName);
-//            modifyStudent.setString(2, lastName);
-//            modifyStudent.setString(3, group);
-//            modifyStudent.setString(4, date);
-//            modifyStudent.setString(5, id);
-//            modifyStudent.execute();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public static void insertNewStudent(String firstName, String lastName, String group, String date) {
 
         try {
@@ -372,6 +369,7 @@ public class DBManager {
             e.printStackTrace();
         }
     }
+
     public static Student getStudentById(String id) {
         Student student = new Student();
         try {
@@ -391,6 +389,7 @@ public class DBManager {
         }
         return student;
     }
+
     public static List<Term> getAllActiveTerm1() {
         LinkedList<Term> terms = new LinkedList<Term>();
         try {
@@ -409,6 +408,7 @@ public class DBManager {
         }
         return terms;
     }
+
     public static List<Mark> showMarkForSelectStudentAndTerm(String idStudent, String idTerm) {
 
         List<Mark> marks = new LinkedList<Mark>();
