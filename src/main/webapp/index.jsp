@@ -15,7 +15,7 @@
 </head>
 <header>
     <div class="container">
-        <div class="p-3 mb-2 bg-info text-white"> Система управления студентами и их успеваемостью 1.0</div>
+        <div class="p-3 mb-2 bg-info text-white"> Система управления студентами и их успеваемостью</div>
         <div class="col-sm-2">
             <a id="logout" class="btn btn-outline-primary" href="/logout">
                 Выйди, ${userName}
